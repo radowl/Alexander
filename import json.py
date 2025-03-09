@@ -4,16 +4,12 @@ from pathlib import Path
 from collections import defaultdict, Counter
 import webbrowser
 import time
-# Файл для хранения данных
 Name = "events.json"
 
 def load_events():
-    """
-    Загружает события из файла JSON.
-    Если файл не существует или пустой, заполняет его начальными данными.
-    """
+
     if not Path(Name).exists():
-        # Если файл не существует, создаем его с начальными данными
+
         date = [
             {
                 "date": "1941-06-22",
@@ -52,10 +48,10 @@ def load_events():
 
     try:
         with open(Name, "r", encoding="utf-8") as file:
-            # Проверяем, не пустой ли файл
+         
             content = file.read().strip()
             if not content:
-                # Если файл пустой, заполняем его начальными данными
+            
                 date = [
                     {
                         "date": "1941-06-22",
@@ -91,24 +87,20 @@ def load_events():
                 with open(Name, "w", encoding="utf-8") as file:
                     json.dump(date, file, ensure_ascii=False, indent=4)
                 return date
-            # Загружаем данные из файла
+         
             return json.loads(content)
     except json.JSONDecodeError:
-        # Если файл содержит некорректный JSON, возвращаем пустой список
+  
         print("Ошибка: Файл events.json содержит некорректные данные. Будет использован пустой список событий.")
         return []
 url = "https://vk.com/video-11254710_456241594?ysclid=m559rnk7tk771928623"
 def SAVE(events):
-    """
-    Сохраняет события.
-    """
+
     with open(Name, "w", encoding="utf-8") as file:
         json.dump(events, file, ensure_ascii=False, indent=4, default=str)
 
 def ADD():
-    """
-    Добавляет событие.
-    """
+
     date = input("Введите дату события (формат YYYY-MM-DD): ")
     description = input("Введите описание события: ")
     participants = input("Введите участников (через запятую, если есть): ")
@@ -130,9 +122,7 @@ def ADD():
     print(f"Событие добавлено: {date} - {description}")
 
 def POISK():
-    """
-    Поиск события.
-    """
+
     keyword = input("Введите ключевое слово для поиска (или нажмите Enter для пропуска): ")
     start_date = input("Введите начальную дату (формат YYYY-MM-DD, или нажмите Enter для пропуска): ")
     end_date = input("Введите конечную дату (формат YYYY-MM-DD, или нажмите Enter для пропуска): ")
@@ -157,20 +147,18 @@ def POISK():
         print("Событий не найдено.")
 
 def stat():
-    """
-    Выводит статистику.
-    """
+
     events = load_events()
     if not events:
         print("Нет данных для статистики.")
         return
 
-    # Количество событий
+
     total_events = len(events)
     print(f"Общее количество событий: {total_events}")
     time.sleep(1)
 
-    # Самые упоминаемые участники
+
     participants_counter = Counter()
     for event in events:
         participants_counter.update(event["participants"])
@@ -181,7 +169,7 @@ def stat():
             print(f"  {participant}: {count} упоминаний")
             time.sleep(1)
 
-    # События по годам
+ 
     events_by_year = defaultdict(int)
     for event in events:
         year = datetime.strptime(event["date"], "%Y-%m-%d").year
@@ -193,9 +181,7 @@ def stat():
 url2 = "https://vkvideo.ru/video782249585_456239039"
 def help():
    
-    """
-    Выводит доступные командам.
-    """
+
     print("Доступные команды:")
     print("  1 - Добавить событие")
     print("  2 - Найти событие")
@@ -204,9 +190,7 @@ def help():
     print("  0 - Выйти")
 
 def main():
-    """
-    Основной цикл программы.
-    """
+
     while True:
         
         print("\nЧто вы хотите сделать?")
